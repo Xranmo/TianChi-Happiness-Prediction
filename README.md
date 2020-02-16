@@ -1,8 +1,8 @@
 [https://tianchi.aliyun.com/competition/entrance/231702/rankingList](https://tianchi.aliyun.com/competition/entrance/231702/rankingList)
 
-###一、数据和模型初探
+### 一、数据和模型初探
 
-#####1.1 数据预处理
+##### 1.1 数据预处理
 ```
 # coding=utf-8
 import pandas as pd
@@ -43,7 +43,7 @@ Y=df.happiness
 ```
 ![image.png](https://upload-images.jianshu.io/upload_images/18032205-738976cdc4bb2039.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-#####1.2 基本模型跑一遍看效果
+##### 1.2 基本模型跑一遍看效果
 - 线性回归
 ```
 from sklearn import metrics
@@ -203,7 +203,9 @@ print()
 
 #结论：普通二乘回归和逻辑回归效果最好
 ```
+
 ![image.png](https://upload-images.jianshu.io/upload_images/18032205-3284901c5319adb7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 ![image.png](https://upload-images.jianshu.io/upload_images/18032205-29f8aac6423ab6df.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 
@@ -237,6 +239,7 @@ print()
 
 #结论：效果很一般
 ```
+
 ![image.png](https://upload-images.jianshu.io/upload_images/18032205-65d7c814e698058d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 - KNN
@@ -434,7 +437,9 @@ plt.barh(b,a,)
     
     
 ```
+
 ![image.png](https://upload-images.jianshu.io/upload_images/18032205-cd6c85661abdc8c9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 ![image.png](https://upload-images.jianshu.io/upload_images/18032205-3044b64e85b6e522.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 - gdbt
@@ -491,6 +496,7 @@ plt.barh(b,a,)
 
 
 ```
+
 ![image.png](https://upload-images.jianshu.io/upload_images/18032205-f5db5bd470512396.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 - xgboost
@@ -545,7 +551,9 @@ plt.figure(figsize=(10,40))
 plt.grid()
 plt.barh(b,a,)
 ```
+
 ![image.png](https://upload-images.jianshu.io/upload_images/18032205-98a23394c67b87df.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 - lightgbm
 ```
 from sklearn import metrics
@@ -603,7 +611,8 @@ plt.grid()
 plt.barh(b,a,)
 ```
 ![image.png](https://upload-images.jianshu.io/upload_images/18032205-fe9e0c89ebfa8785.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-#####1.3 分析结果
+##### 1.3 分析结果
+
 从模型结果来看，gdbt、xgboost和lightgbm的效果都很好，随机森林效果很一般，二乘回归和lR的效果也不错，之后考虑利用xgboost、lightgbm、gdbt和随机森林调参增强模型，然后还可以用LR进一步融合模型。
 
 **采用基本xgboost模型提交结果，原始数据结果得分为0.48043，四舍五入得分为0.55394。。。。**
@@ -656,8 +665,8 @@ df1_final_round.to_csv(r'/Users/ranmo/Desktop/天池/幸福感/df1_final.csv')
 
 ```
 
-###二、超参数搜索
-#####2.1 xgboost
+### 二、超参数搜索
+##### 2.1 xgboost
 参考[https://blog.csdn.net/han_xiaoyang/article/details/52665396](https://blog.csdn.net/han_xiaoyang/article/details/52665396)
 
 xgboost的参数包括：
@@ -684,7 +693,7 @@ print("clf.cv_results_['mean_test_score']:=%s"%clf.cv_results_['mean_test_score'
 ```
 ![image.png](https://upload-images.jianshu.io/upload_images/18032205-e16860866321be79.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 ps:虽然cv的scoring如果不设置默认是采用训练模型所采用的score方式，但这里不设置的话结果不对，umm。。可能是xgb的默认score不是rmse吧。。。
-#####2.1.2 max_depth 和 min_weight 参数调优
+##### 2.1.2 max_depth 和 min_weight 参数调优
 ```
 #粗调max_depth 和 min_weight 
 param_test = {
@@ -718,7 +727,7 @@ print(clf.best_params_)
 ```
 ![image.png](https://upload-images.jianshu.io/upload_images/18032205-df45fbfd3a4a950d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 较原始的0.47178有较好下降。
-#####2.1.3 gamma参数调优
+##### 2.1.3 gamma参数调优
 ```
 #粗调gamma
 #粗调gamma
@@ -737,9 +746,11 @@ print("clf.cv_results_['mean_test_score']:=%s"%clf.cv_results_['mean_test_score'
 print(clf.best_score_)
 print(clf.best_params_)
 ```
+
 ![image.png](https://upload-images.jianshu.io/upload_images/18032205-c104edee31a617c0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-最优结果是初始化参数，所以不用调整。(但为什么结果又下降了？？？)
-#####2.1.4 调整subsample 和 colsample_bytree 参数
+
+最优结果是初始化参数，所以不用调整。
+##### 2.1.4 调整subsample 和 colsample_bytree 参数
 ```
 #粗调subsample 和 colsample_bytree
 param_test = {
@@ -759,7 +770,9 @@ print("clf.cv_results_['mean_test_score']:=%s"%clf.cv_results_['mean_test_score'
 print(clf.best_score_)
 print(clf.best_params_)
 ```
+
 ![image.png](https://upload-images.jianshu.io/upload_images/18032205-c7a7d585d3c19132.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 最优参数在0.9和0.8，进行精调
 ```
 #精调subsample 和 colsample_bytree
@@ -779,10 +792,11 @@ print("clf.cv_results_['mean_test_score']:=%s"%clf.cv_results_['mean_test_score'
 
 print(clf.best_score_)
 print(clf.best_params_)
-```
-![image.png](https://upload-images.jianshu.io/upload_images/18032205-90e18a1919115403.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-精调寻优的结果是0.75和0.8。（score竟然上涨了？？）
-#####2.1.5 正则参数寻优
+``` 
+![image.png](https://upload-images.jianshu.io/upload_images/18032205-90e18a1919115403.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240) 
+
+精调寻优的结果是0.75和0.8。
+##### 2.1.5 正则参数寻优
 ```
 #粗调reg_alpha和reg_lambda
 param_test = {
@@ -829,7 +843,7 @@ print(clf.best_params_)
 
 ```
 最优参数5，0.1。
-#####2.1.6 低学习速率、多树调试最终结果
+##### 2.1.6 低学习速率、多树调试最终结果
 ```
 #调试最终结果
 param_test = {
@@ -857,7 +871,9 @@ print(clf.best_score_)
 print(clf.best_params_)
 
 ```
+
 ![image.png](https://upload-images.jianshu.io/upload_images/18032205-2341e3453a8c4f4b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 从数据上来看，效果确实提升不少。由初始的0.47178降为0.46099。不过降低学习率并且增加树的数量后，模型明显变慢，同时在成绩取得上还降低了（可能导致过拟合，或者说本身小幅度的提升或者降低都是很正常的），因此这里实际跑模型并没有采用低学习率和多数的结构。
 ```
 # 结果2
@@ -902,9 +918,9 @@ print()
 ```
 最佳成绩为0.47675。
 
-#####2.2 lightgbm
+##### 2.2 lightgbm
 
-#####2.2.1 初始化参数
+##### 2.2.1 初始化参数
 默认参数：
 ![image.png](https://upload-images.jianshu.io/upload_images/18032205-9174259431481df5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 ```
@@ -915,8 +931,10 @@ clf.fit(X_train,y_train)
 
 print("clf.cv_results_['mean_test_score']:=%s"%clf.cv_results_['mean_test_score'])
 ```
+
 ![image.png](https://upload-images.jianshu.io/upload_images/18032205-deb13de3c3d9d1e1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-#####2.2.2 寻优结果
+
+##### 2.2.2 寻优结果
 超参数搜索完全可以按照xgboost那一套。
 ```
 #调试最终结果
@@ -942,16 +960,21 @@ print(clf.best_params_)
 
 # 结论：{'colsample_bytree': 1, 'learning_rate': 0.1, 'max_depth': 9, 'min_child_weight': 0.0001, 'min_split_gain': 0.4, 'reg_alpha': 1e-05, 'reg_lambda': 0.0001, 'subsample': 0.5}
 ```
+
 ![image.png](https://upload-images.jianshu.io/upload_images/18032205-ffb5e9284103c9db.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 rmse由0.47728降为0.47000.
 用lightgbm优化后的模型提交成绩后，最优成绩为0.48128。
-#####2.3 gdbt
+##### 2.3 gdbt
+
 [https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.GradientBoostingRegressor.html#sklearn.ensemble.GradientBoostingRegressor](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.GradientBoostingRegressor.html#sklearn.ensemble.GradientBoostingRegressor)
 
 [https://blog.csdn.net/manjhok/article/details/82017696](https://blog.csdn.net/manjhok/article/details/82017696)
-#####2.3.1 初始化参数
+##### 2.3.1 初始化参数
 默认参数：
+
 ![image.png](https://upload-images.jianshu.io/upload_images/18032205-5681bc37c7b21131.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 ```
 #=============
 #GDBT_modified
@@ -965,7 +988,7 @@ clf.fit(X_train,y_train)
 print("clf.cv_results_['mean_test_score']:=%s"%clf.cv_results_['mean_test_score'])
 ```
 ![image.png](https://upload-images.jianshu.io/upload_images/18032205-3e97f6c831e01f42.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-#####2.3.2 寻优结果
+##### 2.3.2 寻优结果
 超参数搜索都是差不多的，名称上有差异。
 ```
 #调试最终结果
@@ -994,12 +1017,12 @@ print(clf.best_params_)
 rmse由0.47534降为0.47148.
 用gbdt优化后的模型提交成绩后，最优成绩为0.48317。
 
-#####2.4 随机森林
+##### 2.4 随机森林
 
 
 [https://blog.csdn.net/u012559520/article/details/77336098](https://blog.csdn.net/u012559520/article/details/77336098)
 
-#####2.4.1 初始化参数
+##### 2.4.1 初始化参数
 ![image.png](https://upload-images.jianshu.io/upload_images/18032205-a4530300ccae20d5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 ```
 #=============
@@ -1013,10 +1036,11 @@ clf.fit(X_train,y_train)
 
 print("clf.cv_results_['mean_test_score']:=%s"%clf.cv_results_['mean_test_score'])
 ```
+
 ![image.png](https://upload-images.jianshu.io/upload_images/18032205-463f18e4221fbd50.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 
-#####2.4.2 寻优参数
+##### 2.4.2 寻优参数
 ```
 #调试最终结果
 
@@ -1039,8 +1063,8 @@ print(clf.best_params_)
 ```
 rmse由0.53373降为0.48867
 用rf优化后的模型提交成绩后，最优成绩为0.51088。
-###三、模型融合
-#####3.1 平均融合xgboost + lightgbm + gdbt现有模型
+### 三、模型融合
+##### 3.1 平均融合xgboost + lightgbm + gdbt现有模型
 ```
 #平均融合xgboost + lightgbm + gdbt现有模型
 
@@ -1102,11 +1126,13 @@ print(mix_mes)
 print(np.mean(mix_mes))
 print()
 ```
+
 ![image.png](https://upload-images.jianshu.io/upload_images/18032205-13a957d1365590cc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 从训练集结果上看，结果有轻微提升。
 用融合模型提交成绩后，最优成绩为0.47104。
 
-#####3.2 线性回归融合xgboost + lightgbm + gdbt
+##### 3.2 线性回归融合xgboost + lightgbm + gdbt
 ```
 #LR融合xgboost + lightgbm + gdbt现有模型
 
@@ -1195,9 +1221,10 @@ print()
 ```
 
 ![image.png](https://upload-images.jianshu.io/upload_images/18032205-c5f8a5f5e4a15099.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 效果不是很理想。不理想的原因是因为对训练集再做回归融合(训练集的成绩能够达到0.15)，虽然能够提升训练集模型精度，但是是过拟合，然后在测试集中就不能取得很好的效果。。。
 
-#####3.3 加权融合xgboost + lightgbm + gdbt
+##### 3.3 加权融合xgboost + lightgbm + gdbt
 因为平均融合效果好，而回归融合过拟合，但是查看了回归模型的系数，和比较接近于1，因此考虑将三者模型进行加权融合（权重和为1）。
 ```
 a=np.arange(0,1.1,0.05)
@@ -1296,11 +1323,13 @@ print(np.mean(weightmix_mes))
 print()
     
 ```
+
 ![image.png](https://upload-images.jianshu.io/upload_images/18032205-b8aec841550611c1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 模型结果有轻微提升。实际最优成绩为0.47531。
 
 
-#####3.4 神经网络融合xgboost + lightgbm + gdbt
+##### 3.4 神经网络融合xgboost + lightgbm + gdbt
 ```
 #神经网络融合xgboost + lightgbm + gdbt现有模型
 
@@ -1387,30 +1416,32 @@ print(np.mean(MLPmix_mes))
 print()
     
 ```
+
 ![image.png](https://upload-images.jianshu.io/upload_images/18032205-5a87aabe023ebbcf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 效果也不理想。
 
-###四、简单特征工程
+### 四、简单特征工程
 本来这部分工作应该是在建模之前做的，但是现在的集成算法已经能够很好地寻找重要特征，并且减小非重要特征的权重，所以大大减少了寻找特征工程的工作量。但是另一方面，要寻找好的特征工程并快速提高模型精度是很费精力的部分，所以限于此，先跑的模型，并基于模型给出来的特征重要性，适当进行开展特征工程。
-#####4.1 去除不重要的特征
+##### 4.1 去除不重要的特征
 ![image.png](https://upload-images.jianshu.io/upload_images/18032205-07fd64424aede1a0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 从集中学习模型给出的特征重要度来看，不重要的特征主要是：
 - edu_other：考虑去除edu_other
 - invest和invest_other：考虑去除inverst全部项和invest_other
 - property和property_other:考虑去除property_other
 - s_work_type：考虑去除s_work_type
-#####4.1.1 低方差
+##### 4.1.1 低方差
 ```
 np.var(X_train)[np.var(X_train)<=np.percentile(np.var(X_train),20)]
 ```
+
 ![image.png](https://upload-images.jianshu.io/upload_images/18032205-fd2cec865aeec441.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 可以看到，方差小于0.1的特征项：
 - edu_other
 - property_0、property_3~property_7
 - invest_0~invest_8
 之后会移除这部分特征项
-#####4.1.2 卡方校验
+##### 4.1.2 卡方校验
 卡方校验的时候发现出现非正定矩阵无法校验，进一步检验发现数据项中有很多负值部分：
 ![image.png](https://upload-images.jianshu.io/upload_images/18032205-abd2cb4b00f6329f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 所以其实原始数据中有错误数据，并且在建模前就应该处理。
@@ -1452,7 +1483,9 @@ plt.figure(figsize=(10,40))
 plt.grid()
 plt.barh(b,p_value,)
 ```
+
 ![image.png](https://upload-images.jianshu.io/upload_images/18032205-40640c3e465ce09b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 ![image.png](https://upload-images.jianshu.io/upload_images/18032205-e2ad1870a0a554a1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 可以看到，与目标变量密切相关的主要是：
 - income收入部分；
@@ -1461,7 +1494,7 @@ plt.barh(b,p_value,)
 - public_service对公共服务的满意度等等；
 
 而前文提到的edu_other、property_0、property_3~property_7、invest_0~invest_8基本上属于无关变量，唯一的特例是invest_6的p值较高，但是这里仍然进行移除。
-#####4.2 修正模型
+##### 4.2 修正模型
 ```
 ##最后一次平均融合
 
@@ -1542,7 +1575,9 @@ print(np.mean(mix_mes))
 print()
 
 ```
+
 ![image.png](https://upload-images.jianshu.io/upload_images/18032205-71395e6970d2d3d2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 从结果上看，经过简单特征工程处理的模型和原有模型能够达到的最优结果是差不多的，所以确实是因为集成算法已经能够很好地处理特征了。。
 最后用随机种子尝试了最终的优化（在模型稳定的基础上并无太大意义，只是看分数能不能高一点而已），baseline为0.47098。
 
